@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fit_fusion/component.dart';
 
 class Login extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Logo
-            logoSvg("assets/icons/White_logo.svg"),
+            SvgPicture.asset('assets/icons/White_logo.svg'),
             const SizedBox(height: 20),
             // Heading
             const Saira(text: "Login to Fit Fusion", size: 24),

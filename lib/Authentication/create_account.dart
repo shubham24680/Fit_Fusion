@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fit_fusion/component.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -31,7 +32,7 @@ class _CreateAccountState extends State<CreateAccount> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Logo
-            logoSvg("assets/icons/White_logo.svg"),
+            SvgPicture.asset('assets/icons/White_logo.svg'),
             const SizedBox(height: 20),
             // Heading
             const Saira(text: "Create Account to Fit Fusion", size: 24),
@@ -68,7 +69,8 @@ class _CreateAccountState extends State<CreateAccount> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Niramit(text: "By signing up you agree to our "),
-                cTextButton("Terms & Conditions", context, 'termsAndConditions'),
+                cTextButton(
+                    "Terms & Conditions", context, 'termsAndConditions'),
               ],
             ),
           ],

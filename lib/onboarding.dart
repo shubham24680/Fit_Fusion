@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fit_fusion/component.dart';
 
 class Onboarding extends StatelessWidget {
@@ -27,7 +28,7 @@ class Onboarding extends StatelessWidget {
             // Logo
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: logoSvg('assets/icons/White_logo.svg'),
+              child: SvgPicture.asset('assets/icons/White_logo.svg'),
             ),
 
             // Gradient

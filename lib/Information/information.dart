@@ -18,7 +18,8 @@ class Information extends StatefulWidget {
 
 class _InformationState extends State<Information> {
   int selected = 0;
-  bool canPop = false;
+  bool canPop = true;
+  // bool loading = false;
   late TextEditingController _nameControllor;
   List<Widget> info = const [
     Fitness(),
@@ -94,7 +95,8 @@ class _InformationState extends State<Information> {
                       child: Saira(text: "What is your name?", size: 24),
                     ),
                     if (keyboardVisible)
-                      Expanded(child: SvgPicture.asset('assets/pictures/yoga.svg')),
+                      Expanded(
+                          child: SvgPicture.asset('assets/pictures/yoga.svg')),
                     TextEditor(controller: _nameControllor, hintText: "Name"),
                   ],
                 ),
@@ -103,12 +105,25 @@ class _InformationState extends State<Information> {
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(20),
           child: ElevatedButton(
-            onPressed: () {
+            onPressed:
+                // loading ? null
+                () {
               if (selected != info.length) {
                 setState(() {
                   selected += 1;
                   canPop = false;
                 });
+              }
+               else {
+              //   setState(() {
+              //     loading = true;
+              //   });
+              //   Timer(const Duration(seconds: 2), () {
+              //     setState(() {
+              //       loading = false;
+              //     });
+                  Navigator.pushNamed(context, 'home');
+              //   });
               }
             },
             style: ElevatedButton.styleFrom(
@@ -118,7 +133,13 @@ class _InformationState extends State<Information> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 )),
-            child: Saira(text: "Next", size: 20, color: black),
+            child:
+                // loading ? CircularProgressIndicator(color: yellow)
+                Saira(
+              text: (selected == info.length) ? "Finish" : "Next",
+              size: 20,
+              color: black,
+            ),
           ),
         ),
       ),

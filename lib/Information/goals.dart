@@ -10,12 +10,12 @@ class Goal extends StatefulWidget {
 
 class _GoalState extends State<Goal> {
   List<String> goals = [
-    "Build Strength",
-    "Build Muscle",
-    "Loss Fat",
     "Learn Techniques",
+    "Loss Fat",
+    "Build Muscle",
+    "Build Strength",
   ];
-  Map<String, String> level = {
+  Map<String, String> choice = {
     "Build Strength": 'assets/pictures/strength.svg',
     "Build Muscle": 'assets/pictures/muscle.svg',
     "Loss Fat": 'assets/pictures/stationary-bicycle.svg',
@@ -38,6 +38,7 @@ class _GoalState extends State<Goal> {
             height: size.height - 307,
             child: ListView.builder(
               itemCount: goals.length,
+              reverse: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
@@ -47,7 +48,7 @@ class _GoalState extends State<Goal> {
                 },
                 child: CCard(
                   text: goals[index],
-                  image: level[goals[index]]!,
+                  image: choice[goals[index]]!,
                   selected: selected[index],
                 ),
               ),

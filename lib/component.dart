@@ -10,11 +10,22 @@ Color yellow = const Color(0xFFE0FE10);
 Color white = Colors.white;
 
 // MARK: SVGS
-logoSvg(String image) {
-  return SvgPicture.asset(
-    image,
-    height: 30,
-  );
+class Svgs extends StatelessWidget {
+  const Svgs({super.key, required this.image, this.color, this.size});
+
+  final String image;
+  final Color? color;
+  final double? size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SvgPicture.asset(
+      image,
+      height: size ?? 30,
+      width: size ?? 30,
+      colorFilter: ColorFilter.mode(color ?? black, BlendMode.srcIn),
+    );
+  }
 }
 
 // MARK: TEXTS
@@ -115,25 +126,47 @@ class CIconButton extends StatelessWidget {
     required this.onPressed,
     this.size,
     this.color,
+    this.higlightColor,
   });
 
   final String image;
   final Function() onPressed;
   final double? size;
   final Color? color;
+  final Color? higlightColor;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
-      style: IconButton.styleFrom(
-        highlightColor: Colors.transparent,
-      ),
+      highlightColor: higlightColor ?? Colors.transparent,
       icon: SvgPicture.asset(
         image,
         height: size ?? 30,
         colorFilter: ColorFilter.mode(color ?? yellow, BlendMode.srcIn),
       ),
+    );
+  }
+}
+
+class MeasurementButton extends StatelessWidget {
+  const MeasurementButton(
+      {super.key, required this.selected, required this.text});
+
+  final bool selected;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 63,
+      width: 100,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: selected ? yellow : yellow.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Niramit(text: text, weight: FontWeight.bold, color: black),
     );
   }
 }
@@ -147,6 +180,8 @@ class TextEditor extends StatefulWidget {
     this.obscure,
     this.onChanged,
     this.suffixIcon,
+    this.borderRadius,
+    this.prefixIcon,
   });
 
   final TextEditingController controller;
@@ -154,6 +189,8 @@ class TextEditor extends StatefulWidget {
   final bool? obscure;
   final Function(String)? onChanged;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final double? borderRadius;
 
   @override
   State<TextEditor> createState() => _TextEditorState();
@@ -161,6 +198,13 @@ class TextEditor extends StatefulWidget {
 
 class _TextEditorState extends State<TextEditor> {
   bool eyeOpen = false;
+
+  oib(Color color) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: color),
+      borderRadius: BorderRadius.circular(widget.borderRadius ?? 15),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,21 +224,13 @@ class _TextEditorState extends State<TextEditor> {
           fontWeight: FontWeight.bold,
           color: grey,
         ),
+        prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
         filled: true,
         fillColor: black,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: black),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: yellow),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(15),
-        ),
+        enabledBorder: oib(black),
+        focusedBorder: oib(yellow),
+        errorBorder: oib(Colors.red),
       ),
     );
   }
@@ -207,11 +243,13 @@ class CCard extends StatelessWidget {
     required this.text,
     required this.image,
     required this.selected,
+    this.cardSize,
   });
 
   final String text;
   final String image;
   final bool selected;
+  final double? cardSize;
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +258,7 @@ class CCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.only(left: 20, top: 10),
-      height: (size.height - 307) * 0.225,
+      height: (size.height - 307) * (cardSize ?? 0.225),
       decoration: BoxDecoration(
         color: selected ? yellow : black,
         borderRadius: BorderRadius.circular(15),
@@ -236,20 +274,19 @@ class CCard extends StatelessWidget {
             color: selected ? black : white,
           ),
           Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomRight: Radius.circular(15),
-              ),
-              child: SvgPicture.asset(
-              image,
-              colorFilter: ColorFilter.mode(
-                selected ? black : yellow,
-                BlendMode.srcIn,
-              ),
-            ),
-            )
-          )
+              alignment: Alignment.bottomCenter,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(15),
+                ),
+                child: SvgPicture.asset(
+                  image,
+                  colorFilter: ColorFilter.mode(
+                    selected ? black : yellow,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ))
         ],
       ),
     );

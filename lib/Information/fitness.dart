@@ -9,7 +9,7 @@ class Fitness extends StatefulWidget {
 }
 
 class _FitnessState extends State<Fitness> {
-  List<String> fit = ["Newbie", "Beginner", "Intermediate", "Advanced"];
+  List<String> fit = ["Advanced", "Intermediate", "Beginner", "Newbie"];
   Map<String, String> level = {
     "Newbie": 'assets/pictures/jumping-rope.svg',
     "Beginner": 'assets/pictures/dumbbell.svg',
@@ -35,6 +35,7 @@ class _FitnessState extends State<Fitness> {
             height: size.height - 307,
             child: ListView.builder(
               itemCount: fit.length,
+              reverse: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
