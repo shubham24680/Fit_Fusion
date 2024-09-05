@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fit_fusion/component.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,8 +11,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int rowItem = 2;
+  double ratio = 0.75;
   late TextEditingController _searchControllor;
   List<String> title = ["Steps Taken", "Hydration"];
+  Map<String, Map<String, String>> habits = {
+    "Steps Taken": {
+      'route': 'steps',
+      'icon': 'assets/icons/steps.svg',
+      'count': "1,532",
+      'unit': "total",
+      'image': 'assets/pictures/bar_graph.svg',
+    },
+    "Hydration": {
+      'route': 'hydration',
+      'icon': 'assets/icons/water drop.svg',
+      'count': "1,500",
+      'unit': "ml",
+      'image': 'assets/pictures/water.svg',
+    },
+  };
 
   @override
   void initState() {
@@ -21,16 +40,17 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle.dark,
-      child: Scaffold(
-        body: Column(
+    Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               height: 275,
               padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 60, bottom: 10),
+                  left: 20, right: 20, top: 40, bottom: 10),
               decoration: BoxDecoration(
                 color: yellow,
                 borderRadius: const BorderRadius.only(
@@ -60,18 +80,21 @@ class _HomeState extends State<Home> {
                         image: 'assets/icons/notification.svg',
                         color: black,
                         higlightColor: black.withOpacity(0.1),
-                        onPressed: () {},
-                        // Navigator.pushNamed(context, 'notifications'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, 'notifications'),
                       ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset('assets/pictures/users_pic.jpg',
-                            width: 80),
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, 'settings'),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset('assets/pictures/users_pic.jpg',
+                              width: 80),
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Column(
@@ -102,6 +125,73 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(20),
               child: Niramit(
                   text: "Health Insights", size: 20, weight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: ((size.width / rowItem) - 20) *
+                  (title.length / rowItem).ceil() *
+                  (1 / ratio),
+              child: GridView.builder(
+                itemCount: title.length,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: ratio,
+                ),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                      context, habits[title[index]]!['route']!),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: black,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Niramit(
+                                  text: title[index],
+                                  size: 16,
+                                  weight: FontWeight.w500,
+                                ),
+                                Svgs(
+                                  image: habits[title[index]]!['icon']!,
+                                  size: 20,
+                                  color: yellow,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.end,
+                              children: [
+                                Niramit(
+                                  text: habits[title[index]]!['count']!,
+                                  weight: FontWeight.bold,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 5),
+                                Niramit(text: habits[title[index]]!['unit']!),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SvgPicture.asset(habits[title[index]]!['image']!,
+                            width: (size.width / rowItem) - 50),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

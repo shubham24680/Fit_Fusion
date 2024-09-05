@@ -7,11 +7,13 @@ environment:
   sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
+  fl_chart: ^0.69.0
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.4.1
   flutter_svg: ^2.0.10+1
   google_fonts: ^6.2.1
+  numberpicker: ^2.1.2
   page_transition: ^2.1.0
   percent_indicator: ^4.2.3
   wheel_slider: ^1.2.1

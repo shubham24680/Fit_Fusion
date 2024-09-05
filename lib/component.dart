@@ -108,12 +108,13 @@ class CElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => Navigator.pushNamed(context, route),
       style: ElevatedButton.styleFrom(
-          backgroundColor: yellow,
-          foregroundColor: black,
-          minimumSize: const Size.fromHeight(63),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          )),
+        backgroundColor: yellow,
+        foregroundColor: black,
+        minimumSize: const Size.fromHeight(63),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
       child: Saira(text: text, size: 20, color: black),
     );
   }
