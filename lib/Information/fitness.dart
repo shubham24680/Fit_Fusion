@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fit_fusion/component.dart';
 
 class Fitness extends StatefulWidget {
-  const Fitness({super.key});
+  const Fitness({super.key, required this.onChoice});
+
+  final Function(String) onChoice;
 
   @override
   State<Fitness> createState() => _FitnessState();
 }
 
 class _FitnessState extends State<Fitness> {
+  int selected = 3;
   List<String> fit = ["Advanced", "Intermediate", "Beginner", "Newbie"];
   Map<String, String> level = {
     "Newbie": 'assets/pictures/jumping-rope.svg',
@@ -16,7 +19,6 @@ class _FitnessState extends State<Fitness> {
     "Intermediate": 'assets/pictures/dumbbell-gym.svg',
     "Advanced": 'assets/pictures/gym.svg',
   };
-  int selected = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,14 @@ class _FitnessState extends State<Fitness> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
+          // Question
           const Saira(
               text: "What is your current Fitness level?",
               size: 24,
               align: TextAlign.center),
           const Spacer(),
+
+          // Options
           SizedBox(
             height: size.height - 307,
             child: ListView.builder(
@@ -41,6 +46,7 @@ class _FitnessState extends State<Fitness> {
                 onTap: () {
                   setState(() {
                     selected = index;
+                    widget.onChoice(fit[selected]);
                   });
                 },
                 child: CCard(

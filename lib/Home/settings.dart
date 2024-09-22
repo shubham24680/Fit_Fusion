@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_fusion/component.dart';
 
 class Settings extends StatefulWidget {
@@ -89,43 +90,52 @@ class _SettingsState extends State<Settings> {
               ),
               child: Column(
                 children: List.generate(
-                  options.length,
-                  (index) => Column(
-                    children: [
-                      if (index != 0) Divider(color: grey),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                Svgs(
-                                  image: details[options[index]]!['icon']!,
-                                  color: yellow,
-                                  size: 20,
+                    options.length,
+                    (index) => GestureDetector(
+                          onTap: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'onboarding', (_) => false);
+                          },
+                          child: Column(
+                            children: [
+                              if (index != 0) Divider(color: grey),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: [
+                                        Svgs(
+                                          image:
+                                              details[options[index]]!['icon']!,
+                                          color: yellow,
+                                          size: 20,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Niramit(
+                                          text: options[index],
+                                          weight: FontWeight.w500,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    ),
+                                    Svgs(
+                                      image: 'assets/icons/right.svg',
+                                      color: grey,
+                                      size: 20,
+                                    )
+                                  ],
                                 ),
-                                const SizedBox(width: 10),
-                                Niramit(
-                                  text: options[index],
-                                  weight: FontWeight.w500,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                            Svgs(
-                              image: 'assets/icons/right.svg',
-                              color: grey,
-                              size: 20,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                              ),
+                            ],
+                          ),
+                        )),
               ),
             )
           ],

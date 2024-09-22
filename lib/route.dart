@@ -10,10 +10,12 @@ import 'package:fit_fusion/Authentication/terms.dart';
 import 'package:fit_fusion/Authentication/create_account.dart';
 import 'package:fit_fusion/Authentication/forgot_password.dart';
 import 'package:fit_fusion/Authentication/login.dart';
+import 'package:fit_fusion/onboarding.dart';
 
 import 'package:flutter/material.dart';
 
 Map<String, Widget> routes = {
+  'onboarding': const Onboarding(),
   'login': const Login(),
   'forgotPassword': const ForgotPassword(),
   'createAccount': const CreateAccount(),

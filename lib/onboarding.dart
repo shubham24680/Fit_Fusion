@@ -50,7 +50,7 @@ class Onboarding extends StatelessWidget {
                 children: [
                   // Heading
                   const Saira(
-                    text: "Fitness that Fits Your Life.",
+                    text: "Fitness that Fits Your Life",
                     align: TextAlign.center,
                   ),
                   // Slogan
@@ -61,8 +61,11 @@ class Onboarding extends StatelessWidget {
                   ),
                   const Spacer(),
                   // Create Account
-                  const CElevatedButton(
-                      text: "Let's move now", route: 'createAccount'),
+                  CElevatedButton(
+                    text: "Let's move now",
+                    onPressed: () =>
+                        Navigator.pushNamed(context, 'createAccount'),
+                  ),
                   const SizedBox(height: 10),
                   // Switch to Login.
                   Wrap(

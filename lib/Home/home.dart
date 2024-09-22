@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_fusion/Home/health_insights.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fit_fusion/component.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+
+import 'package:fit_fusion/component.dart';
+import 'package:fit_fusion/save_data.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,31 +15,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String now = DateFormat('EEE, dd MMMM yyyy').format(DateTime.now());
+  DocumentSnapshot? doc;
   int rowItem = 2;
   double ratio = 0.75;
   late TextEditingController _searchControllor;
-  List<String> title = ["Steps Taken", "Hydration"];
-  Map<String, Map<String, String>> habits = {
-    "Steps Taken": {
-      'route': 'steps',
-      'icon': 'assets/icons/steps.svg',
-      'count': "1,532",
-      'unit': "total",
-      'image': 'assets/pictures/bar_graph.svg',
-    },
-    "Hydration": {
-      'route': 'hydration',
-      'icon': 'assets/icons/water drop.svg',
-      'count': "1,500",
-      'unit': "ml",
-      'image': 'assets/pictures/water.svg',
-    },
-  };
 
   @override
   void initState() {
     super.initState();
     _searchControllor = TextEditingController();
+    _getData();
+  }
+
+  _getData() async {
+    FirestoreServices services = FirestoreServices();
+    DocumentSnapshot data = await services.getUserData();
+    setState(() {
+      doc = data;
+    });
   }
 
   @override
@@ -47,6 +45,7 @@ class _HomeState extends State<Home> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Profile
             Container(
               height: 275,
               padding: const EdgeInsets.only(
@@ -66,16 +65,21 @@ class _HomeState extends State<Home> {
                     children: [
                       Wrap(
                         children: [
+                          // Calander
                           const Svgs(
                               image: 'assets/icons/calendar.svg', size: 20),
                           const SizedBox(width: 5),
+
+                          // Date
                           Niramit(
-                            text: "WED, 28 AUGUST 2024",
+                            text: now,
                             weight: FontWeight.bold,
                             color: black,
                           ),
                         ],
                       ),
+
+                      // Notification
                       CIconButton(
                         image: 'assets/icons/notification.svg',
                         color: black,
@@ -88,24 +92,36 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      // Settings
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(context, 'settings'),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: Image.asset('assets/pictures/users_pic.jpg',
-                              width: 80),
+                          // Profile pic
+                          child: Image.asset(
+                            'assets/pictures/users_pic.jpg',
+                            width: 80,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
+
+                      // Name
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Niramit(text: "Welcome back,", color: black),
-                          Saira(text: "Shubham patel", size: 24, color: black),
+                          Saira(
+                            text: doc?['name'] ?? "...",
+                            size: 24,
+                            color: black,
+                          ),
                         ],
                       )
                     ],
                   ),
+
+                  // Search
                   TextEditor(
                     controller: _searchControllor,
                     hintText: 'Search anything...',
@@ -113,25 +129,29 @@ class _HomeState extends State<Home> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Svgs(
-                          image: 'assets/icons/search.svg',
-                          color: white,
-                          size: 20),
+                        image: 'assets/icons/search.svg',
+                        color: white,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+
             const Padding(
               padding: EdgeInsets.all(20),
               child: Niramit(
                   text: "Health Insights", size: 20, weight: FontWeight.bold),
             ),
+
+            // Health Insights tiles
             SizedBox(
-              height: ((size.width / rowItem) - 20) *
-                  (title.length / rowItem).ceil() *
+              height: ((size.width / rowItem) - 15) *
+                  (insights.length / rowItem).ceil() *
                   (1 / ratio),
               child: GridView.builder(
-                itemCount: title.length,
+                itemCount: insights.length,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -141,8 +161,9 @@ class _HomeState extends State<Home> {
                   childAspectRatio: ratio,
                 ),
                 itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                      context, habits[title[index]]!['route']!),
+                  // Route
+                  onTap: () =>
+                      Navigator.pushNamed(context, insights[index].route),
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -158,13 +179,16 @@ class _HomeState extends State<Home> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                // Title
                                 Niramit(
-                                  text: title[index],
+                                  text: insights[index].title,
                                   size: 16,
                                   weight: FontWeight.w500,
                                 ),
+
+                                // Icons
                                 Svgs(
-                                  image: habits[title[index]]!['icon']!,
+                                  image: insights[index].icon,
                                   size: 20,
                                   color: yellow,
                                 ),
@@ -174,19 +198,25 @@ class _HomeState extends State<Home> {
                             Wrap(
                               crossAxisAlignment: WrapCrossAlignment.end,
                               children: [
+                                // Value
                                 Niramit(
-                                  text: habits[title[index]]!['count']!,
+                                  text: insights[index].value,
                                   weight: FontWeight.bold,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 5),
-                                Niramit(text: habits[title[index]]!['unit']!),
+
+                                Niramit(text: insights[index].unit),
                               ],
                             ),
                           ],
                         ),
-                        SvgPicture.asset(habits[title[index]]!['image']!,
-                            width: (size.width / rowItem) - 50),
+
+                        // Image
+                        SvgPicture.asset(
+                          insights[index].image,
+                          width: (size.width / rowItem) - 50,
+                        ),
                       ],
                     ),
                   ),

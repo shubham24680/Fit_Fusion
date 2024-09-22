@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wheel_slider/wheel_slider.dart';
 
 class Weight extends StatefulWidget {
-  const Weight({super.key});
+  const Weight({super.key, required this.onChoice});
+
+  final Function(String) onChoice;
 
   @override
   State<Weight> createState() => _WeightState();
@@ -34,13 +36,16 @@ class _WeightState extends State<Weight> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Question
           const Align(
             child: Saira(text: "What is your weight?", size: 24),
           ),
           const SizedBox(height: 20),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Measurement button
               GestureDetector(
                 onTap: () => toogle(0),
                 child: MeasurementButton(selected: (selected == 0), text: "kg"),
@@ -54,12 +59,16 @@ class _WeightState extends State<Weight> {
             ],
           ),
           const SizedBox(height: 30),
+
+          // Image
           Expanded(
             child: SvgPicture.asset(
               'assets/pictures/Ride_bicycle.svg',
             ),
           ),
           const SizedBox(height: 30),
+
+          // WheelSlider
           WheelSlider(
             totalCount: totalCount,
             initValue: 0,
@@ -69,13 +78,19 @@ class _WeightState extends State<Weight> {
             onValueChanged: (value) {
               setState(() {
                 _currentValue = value;
+                widget.onChoice(
+                    "${_currentValue + ((selected == 0) ? 40 : 80)} ${(selected == 0) ? "kg" : "lbs"}");
               });
             },
           ),
+
+          // upward arrow
           SvgPicture.asset(
             'assets/icons/arrow_up.svg',
             colorFilter: ColorFilter.mode(yellow, BlendMode.srcIn),
           ),
+
+          // Weight
           Niramit(
             text: "${_currentValue + ((selected == 0) ? 40 : 80)}",
             size: 20,

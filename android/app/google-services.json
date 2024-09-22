@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "464033418233",
+    "project_id": "fit-fusion-d02c8",
+    "storage_bucket": "fit-fusion-d02c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464033418233:android:35ccafd8f736e490340b28",
+        "android_client_info": {
+          "package_name": "com.example.fit_fusion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlZobTC5KhCjVGtSxEBdQKoMlhV77gvjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

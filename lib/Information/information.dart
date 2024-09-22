@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:fit_fusion/save_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -17,17 +20,13 @@ class Information extends StatefulWidget {
 }
 
 class _InformationState extends State<Information> {
-  int selected = 0;
-  bool canPop = true;
-  // bool loading = false;
+  int _selected = 0;
+  bool _canPop = true;
+  bool _loading = false;
+  bool _nameLength = false;
   late TextEditingController _nameControllor;
-  List<Widget> info = const [
-    Fitness(),
-    Goal(),
-    Gender(),
-    Height(),
-    Weight(),
-  ];
+  var _value = "";
+  List<String> _goals = [];
 
   @override
   void initState() {
@@ -35,33 +34,113 @@ class _InformationState extends State<Information> {
     _nameControllor = TextEditingController();
   }
 
-  back() {
+  body() {
+    switch (_selected) {
+      case 1:
+        return Fitness(
+          onChoice: (value) {
+            _value = value;
+          },
+        );
+      case 2:
+        return Goal(
+          onChoice: (value) {
+            _goals = value;
+          },
+        );
+      case 3:
+        return Gender(
+          onChoice: (value) {
+            _value = value;
+          },
+        );
+      case 4:
+        return Height(
+          onChoice: (value) {
+            _value = value;
+          },
+        );
+      case 5:
+        return Weight(
+          onChoice: (value) {
+            _value = value;
+          },
+        );
+    }
+  }
+
+  saveData() async {
+    FirestoreServices firestoreServices = FirestoreServices();
+    switch (_selected) {
+      case 0:
+        await firestoreServices.saveUserData({'name': _nameControllor.text});
+        break;
+      case 1:
+        await firestoreServices.saveUserData({'fitness': _value});
+        break;
+      case 2:
+        await firestoreServices.saveUserData({'goals': _goals});
+        break;
+      case 3:
+        await firestoreServices.saveUserData({'gender': _value});
+        break;
+      case 4:
+        await firestoreServices.saveUserData({'height': _value});
+        break;
+      case 5:
+        await firestoreServices.saveUserData({
+          'weight': _value,
+          'profileCompleted': true,
+        });
+        break;
+    }
+
+    if (_selected != 5) {
+      setState(() {
+        _selected += 1;
+        _canPop = false;
+      });
+    } else {
+      setState(() {
+        _loading = true;
+      });
+      Timer(
+        const Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, 'home'),
+      );
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
+  handleBack() {
     setState(() {
-      if (selected == 1) {
-        canPop = true;
+      if (_selected == 1) {
+        _canPop = true;
       }
-      if (selected != 0) {
-        selected -= 1;
+      if (_selected != 0) {
+        _selected -= 1;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool keyboardVisible = MediaQuery.of(context).viewInsets.bottom == 0;
-
+    // Back button
     return PopScope(
-      canPop: canPop,
-      onPopInvoked: (didPop) => back(),
+      canPop: _canPop,
+      onPopInvoked: (didPop) => handleBack(),
       child: Scaffold(
+        // Consist of Liner indicator and steps.
         appBar: AppBar(
           backgroundColor: background,
           surfaceTintColor: background,
           automaticallyImplyLeading: false,
-          leading: selected != 0
+          leading: _selected != 0
               ? CIconButton(
                   image: 'assets/icons/left.svg',
-                  onPressed: () => back(),
+                  onPressed: () => handleBack(),
                   color: white,
                 )
               : const SizedBox(),
@@ -75,57 +154,55 @@ class _InformationState extends State<Information> {
                 progressColor: yellow,
                 lineHeight: 8,
                 width: 120,
-                percent: selected * 0.2,
+                percent: _selected * 0.2,
               ),
               const SizedBox(height: 10),
-              Niramit(text: "Step ${selected + 1}/6"),
+              Niramit(text: "Step ${_selected + 1}/6"),
             ],
           ),
           actions: const [
             SizedBox(width: 60),
           ],
         ),
-        body: (selected == 0)
+
+        body: (_selected == 0)
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // Name
                     const Align(
                       child: Saira(text: "What is your name?", size: 24),
                     ),
-                    if (keyboardVisible)
-                      Expanded(
-                          child: SvgPicture.asset('assets/pictures/yoga.svg')),
-                    TextEditor(controller: _nameControllor, hintText: "Name"),
+
+                    // Center Image
+                    Expanded(
+                      child: SvgPicture.asset('assets/pictures/yoga.svg'),
+                    ),
+
+                    // Name Text Editor
+                    TextEditor(
+                      controller: _nameControllor,
+                      hintText: "Name",
+                      onChanged: (value) {
+                        setState(() {
+                          _nameLength = value.isNotEmpty;
+                        });
+                      },
+                    ),
                   ],
                 ),
               )
-            : info[selected - 1],
+            : body(),
+
+        // Next button
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(20),
           child: ElevatedButton(
-            onPressed:
-                // loading ? null
-                () {
-              if (selected != info.length) {
-                setState(() {
-                  selected += 1;
-                  canPop = false;
-                });
-              }
-               else {
-              //   setState(() {
-              //     loading = true;
-              //   });
-              //   Timer(const Duration(seconds: 2), () {
-              //     setState(() {
-              //       loading = false;
-              //     });
-                  Navigator.pushNamed(context, 'home');
-              //   });
-              }
-            },
+            onPressed: ((_selected == 0 && _nameLength) || _selected > 0)
+                ? () => saveData()
+                : null,
             style: ElevatedButton.styleFrom(
                 backgroundColor: yellow,
                 foregroundColor: black,
@@ -133,13 +210,13 @@ class _InformationState extends State<Information> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 )),
-            child:
-                // loading ? CircularProgressIndicator(color: yellow)
-                Saira(
-              text: (selected == info.length) ? "Finish" : "Next",
-              size: 20,
-              color: black,
-            ),
+            child: _loading
+                ? CircularProgressIndicator(color: yellow)
+                : Saira(
+                    text: (_selected == 5) ? "Finish" : "Next",
+                    size: 20,
+                    color: black,
+                  ),
           ),
         ),
       ),

@@ -7,23 +7,19 @@ environment:
   sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
+  cloud_firestore: ^4.17.5
+  firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
   fl_chart: ^0.69.0
   flutter:
     sdk: flutter
-  flutter_native_splash: ^2.4.1
   flutter_svg: ^2.0.10+1
   google_fonts: ^6.2.1
+  intl: ^0.19.0
   numberpicker: ^2.1.2
   page_transition: ^2.1.0
   percent_indicator: ^4.2.3
   wheel_slider: ^1.2.1
-
-flutter_native_splash:
-  color: "#1B1B1B"
-  image: "assets/icons/App_logo.png"
-  android_12:
-    color: "#1B1B1B"
-    image: "assets/icons/App_logo.png"
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +31,17 @@ flutter:
   assets:
     - assets/icons/
     - assets/pictures/
+
+  fonts:
+    - family: sairaStencilOne
+      fonts:
+        - asset: assets/fonts/SairaStencilOne-Regular.ttf
+    - family: niramit
+      fonts:
+        - asset: assets/fonts/Niramit-ExtraLight.ttf
+          weight: 100
+        - asset: assets/fonts/Niramit-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Niramit-Bold.ttf
+          weight: 900
+

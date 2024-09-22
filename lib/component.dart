@@ -98,15 +98,16 @@ cTextButton(String text, BuildContext context, String route) {
 }
 
 class CElevatedButton extends StatelessWidget {
-  const CElevatedButton({super.key, required this.text, required this.route});
+  const CElevatedButton(
+      {super.key, required this.text, required this.onPressed});
 
   final String text;
-  final String route;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => Navigator.pushNamed(context, route),
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: yellow,
         foregroundColor: black,
@@ -178,6 +179,7 @@ class TextEditor extends StatefulWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    this.errorText,
     this.obscure,
     this.onChanged,
     this.suffixIcon,
@@ -187,6 +189,7 @@ class TextEditor extends StatefulWidget {
 
   final TextEditingController controller;
   final String hintText;
+  final String? errorText;
   final bool? obscure;
   final Function(String)? onChanged;
   final Widget? suffixIcon;
@@ -200,10 +203,18 @@ class TextEditor extends StatefulWidget {
 class _TextEditorState extends State<TextEditor> {
   bool eyeOpen = false;
 
-  oib(Color color) {
+  OutlineInputBorder oib(Color color) {
     return OutlineInputBorder(
       borderSide: BorderSide(color: color),
       borderRadius: BorderRadius.circular(widget.borderRadius ?? 15),
+    );
+  }
+
+  TextStyle style(Color color) {
+    return GoogleFonts.niramit(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: color,
     );
   }
 
@@ -213,18 +224,11 @@ class _TextEditorState extends State<TextEditor> {
       controller: widget.controller,
       obscureText: widget.obscure ?? false,
       onChanged: widget.onChanged,
-      style: GoogleFonts.niramit(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: white,
-      ),
+      style: style(white),
       decoration: InputDecoration(
         hintText: widget.hintText,
-        hintStyle: GoogleFonts.niramit(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: grey,
-        ),
+        hintStyle: style(grey),
+        errorText: widget.errorText,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
         filled: true,
@@ -232,6 +236,7 @@ class _TextEditorState extends State<TextEditor> {
         enabledBorder: oib(black),
         focusedBorder: oib(yellow),
         errorBorder: oib(Colors.red),
+        focusedErrorBorder: oib(Colors.red),
       ),
     );
   }
