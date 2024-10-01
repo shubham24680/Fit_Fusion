@@ -16,6 +16,17 @@ class Health {
   });
 }
 
+class Setting {
+  final String icon;
+  final String title;
+
+  Setting({
+    required this.icon,
+    required this.title,
+  });
+}
+
+// Health insights
 List<Health> insights = [
   Health(
     title: "Steps Taken",
@@ -57,4 +68,14 @@ List<Health> insights = [
     image: 'assets/pictures/bar_graph.svg',
     route: 'steps',
   ),
+];
+
+// Settings tiles
+List<Setting> titles = [
+  Setting(icon: 'assets/icons/user.svg', title: "Account settings"),
+  Setting(icon: 'assets/icons/document.svg', title: "Terms and conditions"),
+  Setting(icon: 'assets/icons/help.svg', title: "Help"),
+  Setting(icon: 'assets/icons/feedback.svg', title: "Feedback"),
+  Setting(icon: 'assets/icons/rate.svg', title: "Rate the app"),
+  Setting(icon: 'assets/icons/logout.svg', title: "Logout"),
 ];

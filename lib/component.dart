@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // MARK: COLORS
 Color background = const Color(0xFF1B1B1B);
@@ -25,6 +26,16 @@ class Svgs extends StatelessWidget {
       width: size ?? 30,
       colorFilter: ColorFilter.mode(color ?? black, BlendMode.srcIn),
     );
+  }
+}
+
+// MARK: URL
+moveTo(String s) async {
+  var url = Uri.parse(s);
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
 
@@ -185,6 +196,7 @@ class TextEditor extends StatefulWidget {
     this.suffixIcon,
     this.borderRadius,
     this.prefixIcon,
+    this.maxLines,
   });
 
   final TextEditingController controller;
@@ -195,6 +207,7 @@ class TextEditor extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final double? borderRadius;
+  final int? maxLines;
 
   @override
   State<TextEditor> createState() => _TextEditorState();
@@ -225,6 +238,7 @@ class _TextEditorState extends State<TextEditor> {
       obscureText: widget.obscure ?? false,
       onChanged: widget.onChanged,
       style: style(white),
+      maxLines: widget.maxLines ?? 1,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: style(grey),
@@ -280,20 +294,51 @@ class CCard extends StatelessWidget {
             color: selected ? black : white,
           ),
           Align(
-              alignment: Alignment.bottomCenter,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(15),
+            alignment: Alignment.bottomCenter,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(15),
+              ),
+              child: SvgPicture.asset(
+                image,
+                colorFilter: ColorFilter.mode(
+                  selected ? black : yellow,
+                  BlendMode.srcIn,
                 ),
-                child: SvgPicture.asset(
-                  image,
-                  colorFilter: ColorFilter.mode(
-                    selected ? black : yellow,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ))
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+// MARK: PHOTO
+class Photo extends StatelessWidget {
+  const Photo({super.key, required this.route, required this.text});
+
+  final String route;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, route),
+      child: Container(
+        height: route == 'settings' ? 80 : 100,
+        width: route == 'settings' ? 80 : 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: black,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Saira(
+          text: text,
+          color: yellow,
+          align: TextAlign.center,
+          size: route == 'settings' ? 56 : 72,
+        ),
       ),
     );
   }

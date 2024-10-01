@@ -39,7 +39,7 @@ class TermsAndConditions extends StatelessWidget {
                   " by healthy adult individuals and are not intended for use by minors, pregnant"
                   " women, or individuals with any type of health condition. Such individuals are"
                   " specifically warned to seek professional medical advice prior to initiating"
-                  " any form of weight loss effort or regimen. Health notices",
+                  " any form of weight loss effort or regimen.",
               weight: FontWeight.w500,
             ),
           ],
