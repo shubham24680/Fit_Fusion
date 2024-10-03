@@ -1,4 +1,4 @@
 # Fit Fusion
 ------------
 
-Application -> [Fit Fusion](https://drive.google.com/file/d/1j-ymcE5KUKEwAcEoj8HOPq6vsBhRePKX/view?usp=sharing)
+Application -> [Fit Fusion](https://drive.google.com/file/d/18Y0zMFOjKcKep9PI2jFGEVIL88p2m72F/view?usp=sharing)
