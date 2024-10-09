@@ -28,7 +28,11 @@ class _GoalState extends State<Goal> {
   @override
   void initState() {
     super.initState();
+    // It return default value selected.
     _selected[3] = true;
+    List<String> temp = [];
+    temp.add(_goals[3]);
+    widget.onChoice(temp);
   }
 
   @override
@@ -64,6 +68,8 @@ class _GoalState extends State<Goal> {
                     widget.onChoice(temp);
                   });
                 },
+
+                // Option card.
                 child: CCard(
                   text: _goals[index],
                   image: _choice[_goals[index]]!,

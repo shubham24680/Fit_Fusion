@@ -41,48 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyADvhClG7zL-tr5e621YfDQDkvRWNBvHQQ',
-    appId: '1:464033418233:web:6b2cc87c258585b8340b28',
-    messagingSenderId: '464033418233',
-    projectId: 'fit-fusion-d02c8',
-    authDomain: 'fit-fusion-d02c8.firebaseapp.com',
-    storageBucket: 'fit-fusion-d02c8.appspot.com',
-    measurementId: 'G-PQYW95BSGF',
+    apiKey: 'AIzaSyDVvT_cKqfW6zB5ryxhjrirAtEypL9uc18',
+    appId: '1:1019494930871:web:e3e4c1cac064e7fdc67032',
+    messagingSenderId: '1019494930871',
+    projectId: 'fit-fusion-a70bf',
+    authDomain: 'fit-fusion-a70bf.firebaseapp.com',
+    storageBucket: 'fit-fusion-a70bf.appspot.com',
+    measurementId: 'G-1LTE25BVVR',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDlZobTC5KhCjVGtSxEBdQKoMlhV77gvjo',
-    appId: '1:464033418233:android:35ccafd8f736e490340b28',
-    messagingSenderId: '464033418233',
-    projectId: 'fit-fusion-d02c8',
-    storageBucket: 'fit-fusion-d02c8.appspot.com',
+    apiKey: 'AIzaSyDfZtxR92YZc0OWa7qoOV9MHmTG-6fqhag',
+    appId: '1:1019494930871:android:40f217cc3920d3bcc67032',
+    messagingSenderId: '1019494930871',
+    projectId: 'fit-fusion-a70bf',
+    storageBucket: 'fit-fusion-a70bf.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCQ5Bbla1l4X5T8M-SJ8TVVcHWGD5DZQ_U',
-    appId: '1:464033418233:ios:79440b706108c1fb340b28',
-    messagingSenderId: '464033418233',
-    projectId: 'fit-fusion-d02c8',
-    storageBucket: 'fit-fusion-d02c8.appspot.com',
+    apiKey: 'AIzaSyC3g4T02S_xrWHavMglRnZddm8ZthgrWjU',
+    appId: '1:1019494930871:ios:6f7da01a9c43cbbbc67032',
+    messagingSenderId: '1019494930871',
+    projectId: 'fit-fusion-a70bf',
+    storageBucket: 'fit-fusion-a70bf.appspot.com',
     iosBundleId: 'com.example.fitFusion',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCQ5Bbla1l4X5T8M-SJ8TVVcHWGD5DZQ_U',
-    appId: '1:464033418233:ios:79440b706108c1fb340b28',
-    messagingSenderId: '464033418233',
-    projectId: 'fit-fusion-d02c8',
-    storageBucket: 'fit-fusion-d02c8.appspot.com',
+    apiKey: 'AIzaSyC3g4T02S_xrWHavMglRnZddm8ZthgrWjU',
+    appId: '1:1019494930871:ios:6f7da01a9c43cbbbc67032',
+    messagingSenderId: '1019494930871',
+    projectId: 'fit-fusion-a70bf',
+    storageBucket: 'fit-fusion-a70bf.appspot.com',
     iosBundleId: 'com.example.fitFusion',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyADvhClG7zL-tr5e621YfDQDkvRWNBvHQQ',
-    appId: '1:464033418233:web:dcf974c07d007c86340b28',
-    messagingSenderId: '464033418233',
-    projectId: 'fit-fusion-d02c8',
-    authDomain: 'fit-fusion-d02c8.firebaseapp.com',
-    storageBucket: 'fit-fusion-d02c8.appspot.com',
-    measurementId: 'G-M9NGGR822X',
+    apiKey: 'AIzaSyDVvT_cKqfW6zB5ryxhjrirAtEypL9uc18',
+    appId: '1:1019494930871:web:b0a9e8dd26031751c67032',
+    messagingSenderId: '1019494930871',
+    projectId: 'fit-fusion-a70bf',
+    authDomain: 'fit-fusion-a70bf.firebaseapp.com',
+    storageBucket: 'fit-fusion-a70bf.appspot.com',
+    measurementId: 'G-BE7HVZKYQ3',
   );
 }

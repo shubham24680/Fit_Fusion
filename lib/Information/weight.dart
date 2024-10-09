@@ -17,6 +17,15 @@ class _WeightState extends State<Weight> {
   int totalCount = 110;
   int _currentValue = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    // It return default value selected.
+    widget.onChoice(
+        "${_currentValue + ((selected == 0) ? 40 : 80)} ${(selected == 0) ? "kg" : "lbs"}");
+  }
+
+  // Calculate the weight on indicator.
   toogle(int key) {
     if (selected != key) {
       setState(() {

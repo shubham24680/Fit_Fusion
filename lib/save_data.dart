@@ -6,20 +6,23 @@ class FirestoreServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> saveUserData(Map<String, dynamic> data) async {
-    String userId = _auth.currentUser!.uid;
+    User user = _auth.currentUser!;
 
     try {
       await _firestore
-          .collection('users')
-          .doc(userId)
+          .collection('user')
+          .doc(user.uid)
           .set(data, SetOptions(merge: true));
     } catch (e) {
-      print(e);
+      // print(e);
+      throw Exception('Failed to save user data: $e');
     }
   }
 
   Future<DocumentSnapshot> getUserData() async {
-    String userId = _auth.currentUser!.uid;
-    return await _firestore.collection('users').doc(userId).get();
+    User user = _auth.currentUser!;
+    DocumentSnapshot doc =
+        await _firestore.collection('user').doc(user.uid).get();
+    return doc;
   }
 }

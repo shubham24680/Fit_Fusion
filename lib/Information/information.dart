@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:fit_fusion/save_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:fit_fusion/component.dart';
 
@@ -20,6 +20,7 @@ class Information extends StatefulWidget {
 }
 
 class _InformationState extends State<Information> {
+  var userBox = Hive.box('user');
   int _selected = 0;
   bool _canPop = true;
   bool _loading = false;
@@ -34,6 +35,7 @@ class _InformationState extends State<Information> {
     _nameControllor = TextEditingController();
   }
 
+  // Different screen inside information
   body() {
     switch (_selected) {
       case 1:
@@ -69,51 +71,51 @@ class _InformationState extends State<Information> {
     }
   }
 
+  // Save Data for each screen.
   saveData() async {
-    FirestoreServices firestoreServices = FirestoreServices();
     switch (_selected) {
       case 0:
-        await firestoreServices.saveUserData({'name': _nameControllor.text});
+        await userBox.put('name', _nameControllor.text.trim());
         break;
       case 1:
-        await firestoreServices.saveUserData({'fitness': _value});
+        await userBox.put('fitness', _value);
         break;
       case 2:
-        await firestoreServices.saveUserData({'goals': _goals});
+        await userBox.put('goals', _goals);
         break;
       case 3:
-        await firestoreServices.saveUserData({'gender': _value});
+        await userBox.put('gender', _value);
         break;
       case 4:
-        await firestoreServices.saveUserData({'height': _value});
+        await userBox.put('height', _value);
         break;
       case 5:
-        await firestoreServices.saveUserData({
-          'weight': _value,
-          'profileCompleted': true,
-        });
+        await userBox.put('weight', _value);
+        await userBox.put('profileCompleted', true);
         break;
     }
 
+    // Movement of screen forward.
     if (_selected != 5) {
       setState(() {
         _selected += 1;
         _canPop = false;
       });
     } else {
+      // At the last screen it load and move to home after completing profile.
       setState(() {
         _loading = true;
-      });
-      Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacementNamed(context, 'home'),
-      );
-      setState(() {
-        _loading = false;
+        Timer(const Duration(seconds: 2), () {
+          if (mounted) {
+            Navigator.pushReplacementNamed(context, 'home');
+            _loading = false;
+          }
+        });
       });
     }
   }
 
+  // It move screen backward.
   handleBack() {
     setState(() {
       if (_selected == 1) {
@@ -146,6 +148,7 @@ class _InformationState extends State<Information> {
               : const SizedBox(),
           title: Column(
             children: [
+              // Check in which screen user on.
               LinearPercentIndicator(
                 alignment: MainAxisAlignment.center,
                 padding: const EdgeInsets.all(0),
@@ -157,6 +160,8 @@ class _InformationState extends State<Information> {
                 percent: _selected * 0.2,
               ),
               const SizedBox(height: 10),
+
+              // Steps
               Niramit(text: "Step ${_selected + 1}/6"),
             ],
           ),
@@ -201,6 +206,7 @@ class _InformationState extends State<Information> {
           padding: const EdgeInsets.all(20),
           child: ElevatedButton(
             onPressed: ((_selected == 0 && _nameLength) || _selected > 0)
+                // ? () {}
                 ? () => saveData()
                 : null,
             style: ElevatedButton.styleFrom(
@@ -211,7 +217,7 @@ class _InformationState extends State<Information> {
                   borderRadius: BorderRadius.circular(15),
                 )),
             child: _loading
-                ? CircularProgressIndicator(color: yellow)
+                ? CircularProgressIndicator(color: black)
                 : Saira(
                     text: (_selected == 5) ? "Finish" : "Next",
                     size: 20,
@@ -223,3 +229,50 @@ class _InformationState extends State<Information> {
     );
   }
 }
+
+  // saveData() async {
+    //   FirestoreServices firestoreServices = FirestoreServices();
+    //   switch (_selected) {
+    //     case 0:
+    //       await firestoreServices
+    //           .saveUserData({'name': _nameControllor.text.trim()});
+    //       break;
+    //     case 1:
+    //       await firestoreServices.saveUserData({'fitness': _value});
+    //       break;
+    //     case 2:
+    //       await firestoreServices.saveUserData({'goals': _goals});
+    //       break;
+    //     case 3:
+    //       await firestoreServices.saveUserData({'gender': _value});
+    //       break;
+    //     case 4:
+    //       await firestoreServices.saveUserData({'height': _value});
+    //       break;
+    //     case 5:
+    //       await firestoreServices.saveUserData({
+    //         'weight': _value,
+    //         'profileCompleted': true,
+    //       });
+    //       break;
+    //   }
+
+    //   // Movement of screen forward.
+    //   if (_selected != 5) {
+    //     setState(() {
+    //       _selected += 1;
+    //       _canPop = false;
+    //     });
+    //   } else {
+    //     // At the last screen it load and move to home after completing profile.
+    //     setState(() {
+    //       _loading = true;
+    //       Timer(const Duration(seconds: 2), () {
+    //         if (mounted) {
+    //           Navigator.pushReplacementNamed(context, 'home');
+    //           _loading = false;
+    //         }
+    //       });
+    //     });
+    //   }
+  // }

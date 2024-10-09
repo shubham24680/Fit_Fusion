@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 Color background = const Color(0xFF1B1B1B);
 Color black = const Color(0xFF2C2C2C);
 Color grey = const Color(0xFF3F403F);
+// Color yellow = const Color(0xFFBCD41B);
 Color yellow = const Color(0xFFE0FE10);
 Color white = Colors.white;
 
@@ -30,7 +31,7 @@ class Svgs extends StatelessWidget {
 }
 
 // MARK: URL
-moveTo(String s) async {
+Future<void> moveTo(String s) async {
   var url = Uri.parse(s);
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
@@ -196,7 +197,6 @@ class TextEditor extends StatefulWidget {
     this.suffixIcon,
     this.borderRadius,
     this.prefixIcon,
-    this.maxLines,
   });
 
   final TextEditingController controller;
@@ -207,7 +207,6 @@ class TextEditor extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final double? borderRadius;
-  final int? maxLines;
 
   @override
   State<TextEditor> createState() => _TextEditorState();
@@ -216,6 +215,7 @@ class TextEditor extends StatefulWidget {
 class _TextEditorState extends State<TextEditor> {
   bool eyeOpen = false;
 
+  // Border
   OutlineInputBorder oib(Color color) {
     return OutlineInputBorder(
       borderSide: BorderSide(color: color),
@@ -223,6 +223,7 @@ class _TextEditorState extends State<TextEditor> {
     );
   }
 
+  // style
   TextStyle style(Color color) {
     return GoogleFonts.niramit(
       fontSize: 16,
@@ -238,7 +239,7 @@ class _TextEditorState extends State<TextEditor> {
       obscureText: widget.obscure ?? false,
       onChanged: widget.onChanged,
       style: style(white),
-      maxLines: widget.maxLines ?? 1,
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: style(grey),
@@ -328,16 +329,74 @@ class Photo extends StatelessWidget {
       child: Container(
         height: route == 'settings' ? 80 : 100,
         width: route == 'settings' ? 80 : 100,
-        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: black,
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Saira(
-          text: text,
-          color: yellow,
-          align: TextAlign.center,
-          size: route == 'settings' ? 56 : 72,
+        child: Center(
+          child: Saira(
+            text: text.toUpperCase(),
+            color: yellow,
+            align: TextAlign.center,
+            size: route == 'settings' ? 56 : 72,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Timeline
+class Timeline extends StatefulWidget {
+  const Timeline({super.key, required this.onChanged});
+
+  final Function(int) onChanged;
+
+  @override
+  State<Timeline> createState() => _TimelineState();
+}
+
+class _TimelineState extends State<Timeline> {
+  List<String> time = ["Week", "Month", "Year"];
+  int selectedTimeline = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+            color: yellow, strokeAlign: BorderSide.strokeAlignOutside),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List.generate(
+          time.length,
+          (index) => GestureDetector(
+            onTap: () => setState(() {
+              selectedTimeline = index;
+              widget.onChanged(index);
+            }),
+            child: Container(
+              height: 40,
+              width: size.width / time.length - 20,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color:
+                    (selectedTimeline == index) ? yellow : Colors.transparent,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Niramit(
+                text: time[index],
+                weight: FontWeight.w500,
+                color: (selectedTimeline == index) ? black : white,
+                size: 16,
+              ),
+            ),
+          ),
         ),
       ),
     );

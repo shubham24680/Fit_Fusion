@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_fusion/classes.dart';
-import 'package:fit_fusion/save_data.dart';
+// import 'package:fit_fusion/save_data.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_fusion/component.dart';
+import 'package:hive/hive.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -13,21 +14,72 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  DocumentSnapshot? doc;
+  var userBox = Hive.box('user');
+  late String _name;
 
   @override
   void initState() {
     super.initState();
-    _getData();
+    _name = userBox.get('name', defaultValue: '...');
+
+    // _getData();
   }
 
-  _getData() async {
-    FirestoreServices services = FirestoreServices();
-    DocumentSnapshot data = await services.getUserData();
-    setState(() {
-      doc = data;
-    });
-  }
+  // _getData() async {
+  //   FirestoreServices services = FirestoreServices();
+  //   DocumentSnapshot data = await services.getUserData();
+  //   setState(() {
+  //     doc = data;
+  //   });
+  // }
+
+  // logout() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       backgroundColor: black,
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+  //       // title
+  //       titlePadding:
+  //           const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+  //       title: const Niramit(
+  //         text: "Logout",
+  //         size: 20,
+  //         weight: FontWeight.bold,
+  //       ),
+
+  //       // content
+  //       contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 80),
+  //       content: const Niramit(
+  //         text: "Are you sure, do you want to logout?",
+  //         weight: FontWeight.w500,
+  //         size: 16,
+  //       ),
+
+  //       // action (buttons)
+  //       buttonPadding: const EdgeInsets.all(50),
+  //       actions: [
+  //         GestureDetector(
+  //           onTap: () => Navigator.pop(context),
+  //           child: alertChild("No"),
+  //         ),
+  //         GestureDetector(
+  //           onTap: () {
+  //             FirebaseAuth.instance.signOut();
+  //             Navigator.pushNamedAndRemoveUntil(
+  //                 context, 'onboarding', (_) => false);
+  //           },
+  //           child: alertChild("Yes"),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // alertChild(String value) {
+  //   return Niramit(text: value, weight: FontWeight.bold, color: yellow);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +107,9 @@ class _SettingsState extends State<Settings> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Profile
-                    Photo(route: '', text: doc?['name'][0] ?? "..."),
+                    Photo(route: '', text: _name[0].toUpperCase()),
                     const SizedBox(height: 10),
-                    Saira(text: doc?['name'] ?? "...", size: 24, color: black),
+                    Saira(text: _name, size: 24, color: black),
                   ],
                 ),
               ),
@@ -91,11 +143,10 @@ class _SettingsState extends State<Settings> {
                           moveTo('mailto:fitfusion622@gmail.com');
                         } else if (index == 4) {
                           moveTo('https://github.com/shubham24680/Fit_Fusion');
-                        } else if (index == 5) {
-                          FirebaseAuth.instance.signOut();
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, 'onboarding', (_) => false);
-                        }
+                        } 
+                        // else if (index == 5) {
+                        //   logout();
+                        // }
                       },
                       child: Column(
                         children: [

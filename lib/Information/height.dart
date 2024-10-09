@@ -17,6 +17,16 @@ class _HeightState extends State<Height> {
   int totalCount = 40;
   num _currentValue = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    // It return default value selected.
+
+    widget.onChoice(
+        "${_currentValue + ((selected == 0) ? 50 : 130)} ${(selected == 0) ? "inch" : "cm"}");
+  }
+
+  // Calculate the current height on indicator.
   toogle(int key) {
     if (selected != key) {
       setState(() {

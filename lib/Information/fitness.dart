@@ -21,6 +21,13 @@ class _FitnessState extends State<Fitness> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    // It automatic return if user didn't select anything.
+    widget.onChoice(fit[selected]);
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
@@ -49,6 +56,7 @@ class _FitnessState extends State<Fitness> {
                     widget.onChoice(fit[selected]);
                   });
                 },
+                // Option card.
                 child: CCard(
                   text: fit[index],
                   image: level[fit[index]]!,

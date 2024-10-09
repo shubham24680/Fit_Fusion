@@ -64,16 +64,16 @@ class Onboarding extends StatelessWidget {
                   CElevatedButton(
                     text: "Let's move now",
                     onPressed: () =>
-                        Navigator.pushNamed(context, 'createAccount'),
+                        Navigator.pushNamed(context, 'information'),
                   ),
-                  const SizedBox(height: 10),
+                  // const SizedBox(height: 10),
                   // Switch to Login.
-                  Wrap(
-                    children: [
-                      const Niramit(text: "Already have an account? "),
-                      cTextButton("Log in", context, 'login'),
-                    ],
-                  ),
+                  // Wrap(
+                  //   children: [
+                  //     const Niramit(text: "Already have an account? "),
+                  //     cTextButton("Log in", context, 'login'),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

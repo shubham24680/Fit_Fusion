@@ -16,7 +16,14 @@ class _GenderState extends State<Gender> {
     "Male": 'assets/pictures/Man.svg',
     "Female": 'assets/pictures/Woman.svg',
   };
-  int selected = 0;
+  int selected = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    // It return default value selected.
+    widget.onChoice(gender[selected]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +35,7 @@ class _GenderState extends State<Gender> {
         children: [
           // Question
           const Saira(
-              text: "What is your gender?",
-              size: 24,
-              align: TextAlign.center),
+              text: "What is your gender?", size: 24, align: TextAlign.center),
           const Spacer(),
 
           // Options
@@ -47,6 +52,8 @@ class _GenderState extends State<Gender> {
                     widget.onChoice(gender[selected]);
                   });
                 },
+
+                // Option card.
                 child: CCard(
                   text: gender[index],
                   image: level[gender[index]]!,
