@@ -13,9 +13,9 @@ Fit Fusion is a modern, all-in-one fitness app designed to help users achieve th
 👉 **Social Features:** Connect with friends, share progress, and compete in challenges.
 
 # Screenshots 📱
-<p align="center"><img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Splash%20screen.png" alt="Splash Screen" width="320">
-<img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Onboarding%20Screen.png" alt="Onboarding Screen" width="320">
-<img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Home.png" alt="Home Screen" width="320"></p>
+<p align="center"><img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Splash%20screen.png" alt="Splash Screen" width="250">
+<img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Onboarding%20Screen.png" alt="Onboarding Screen" width="250">
+<img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Home.png" alt="Home Screen" width="250"></p>
 
 # Download 👇
 -> [Version 0.0.3](https://drive.google.com/file/d/1Eju8Yrg_ClhmF6aJd0F7226dIZ3uZop-/view?usp=sharing)\
