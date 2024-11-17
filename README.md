@@ -18,6 +18,7 @@ Fit Fusion is a modern, all-in-one fitness app designed to help users achieve th
 <img src="https://github.com/shubham24680/Fit_Fusion/blob/main/assets/pictures/Home.png" alt="Home Screen" width="250"></p>
 
 # Download 👇
--> [Version 0.0.3](https://drive.google.com/file/d/1Eju8Yrg_ClhmF6aJd0F7226dIZ3uZop-/view?usp=sharing)\
--> [Version 0.0.2](https://drive.google.com/file/d/18Y0zMFOjKcKep9PI2jFGEVIL88p2m72F/view?usp=sharing)\
--> [Version 0.0.1](https://drive.google.com/file/d/1nINy7sH14L8_F-Ckr9kbCcjpywKYN1vl/view?usp=sharing)
+-> [Version 0.1.3](https://drive.google.com/file/d/1OfO0KVnlFNfAcsi6PKhRBIjX3leshgvA/view?usp=sharing) (17th November 2024)\
+-> [Version 0.0.3](https://drive.google.com/file/d/1Eju8Yrg_ClhmF6aJd0F7226dIZ3uZop-/view?usp=sharing) (27th October 2024)\
+-> [Version 0.0.2](https://drive.google.com/file/d/18Y0zMFOjKcKep9PI2jFGEVIL88p2m72F/view?usp=sharing) (20th October 2024)\
+-> [Version 0.0.1](https://drive.google.com/file/d/1nINy7sH14L8_F-Ckr9kbCcjpywKYN1vl/view?usp=sharing) (13th October 2024)
